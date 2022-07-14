@@ -1,7 +1,11 @@
-
  node{
  
  def mavenHome = tool name : "maven3.8.4"
+ 
+ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '5', daysToKeepStr: '', numToKeepStr: '5')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+ 
+ 
+ 
  stage('checkoutCode')
  {
  git branch: 'development', credentialsId: '17adbaf8-761e-4e2d-9a31-d33294e12aa4', url: 
@@ -12,7 +16,7 @@
  {
  sh "${mavenHome}/bin/mvn clean package"
  }
-
+ /*
  stage('ExecuteSoanarQubeReport')
  {
  sh "${mavenHome}/bin/mvn sonar:sonar"
@@ -23,4 +27,11 @@
  sh "${mavenHome}/bin/mvn deploy"
  } 
  
+ stage('DeployAppIntoTomcatServer')
+ {
+ sshagent(['140d2811-756e-4213-914a-9ec66afddacf']) {
+  sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.38.38:/opt/apache-tomcat-9.0.64/webapps"
+ }
+ }
+ */
  }
