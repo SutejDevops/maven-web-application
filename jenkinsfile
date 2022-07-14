@@ -9,7 +9,7 @@
  echo "Build number is: ${env.BUILD_NUMBER} "
  
  
- 
+ try{
  stage('checkoutCode')
  {
  git branch: 'development', credentialsId: '17adbaf8-761e-4e2d-9a31-d33294e12aa4', url: 'https://github.com/SutejDevops/maven-web-application.git'
@@ -36,5 +36,13 @@
   sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.38.38:/opt/apache-tomcat-9.0.64/webapps"
  }
  }
-
+ */
+ }catch(e){
+ currentBuild.result= "FAILED"
+     throw e
  }
+ finally{
+ sendSlackNotifications(currentBuild.result)
+ }
+ 
+ }//Node Closing
