@@ -38,4 +38,12 @@
  }
  }
  */
+ }catch(e){
+ currentBuild.result= "FAILED"
+     throw e
  }
+ finally{
+ sendSlackNotifications(currentBuild.result)
+ }
+ 
+ }//Node closing
