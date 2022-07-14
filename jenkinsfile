@@ -10,6 +10,9 @@
  
  
  try{
+ 
+ sendSlackNotifications('STARTED')
+ 
  stage('checkoutCode')
  {
  git branch: 'development', credentialsId: '17adbaf8-761e-4e2d-9a31-d33294e12aa4', url: 'https://github.com/SutejDevops/maven-web-application.git'
